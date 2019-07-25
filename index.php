@@ -1,6 +1,4 @@
 <?php  
-require 'index.view.php';   //Relacionamos con el archivo de la vista.
-
 
 try 
 {
@@ -25,7 +23,7 @@ $inicio = ($pagina>1) ? ($pagina * $articulosPorPagina - $articulosPorPagina) :0
 $articulos = $conexion->prepare("SELECT SQL_CALC_FOUND_ROWS * FROM articulos LIMIT $inicio,$articulosPorPagina");     //Preparamos nuestra consulta. "" porque va con variables.
 
 $articulos->execute();  //Ejecutamos la consulta.
-$articulos = $articulos->fetchAll();    //Traemos todos los articulos y los guardamos en la variable.
+$articulos= $articulos->fetchAll();    //Traemos todos los articulos y los guardamos en la variable.
 
 if (!$articulos) 
 {
@@ -33,11 +31,13 @@ if (!$articulos)
                                     //Esto hara que en caso de ingresar una pagina que no contenga articulos, se vaya directamente a la pagina 1 debido al $pagina isset.    
 }
 
-//Podemos traer FOUND_ROWS gracias a SQL_CALC_FOUND_ROWS. Lo que hacemos es traer el total de filas que nosotros tenemos en la DATABASE.
-$totalArticulos = $conexion->query('SELECT FOUND_ROWS as total'); 
+//Podemos traer FOUND_ROWS() gracias a SQL_CALC_FOUND_ROWS. Lo que hacemos es traer el total de filas que nosotros tenemos en la DATABASE.
+$totalArticulos = $conexion->query('SELECT FOUND_ROWS() as total'); 
 $totalArticulos = $totalArticulos->fetch()['total'];    //Sobreescribimos la variable. Escribimos asi porque se comporta como un arreglo de filas la variable total.
 
 //Calculamos el numero de paginas con la siguiente ecuacion.
-$numeroPaginas = cile($totalArticulos / $articulosPorPagina);
+$numeroPaginas = ceil($totalArticulos / $articulosPorPagina);
 
+//PONER AL FINAL PORQUE SINO SE ROMPE TODO.
+require 'index.view.php';   //Relacionamos con el archivo de la vista. 
 ?>

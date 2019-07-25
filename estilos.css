@@ -24,8 +24,10 @@ body {
 h1 {
     margin: 20px 0;
     text-align: center;
+    color: #ce7f08; /*Ver porque no se ejecuta el color.*/
     font-family: "Oswald", Arial, Helvetica, sans-serif;    /*Le damos formato al texto*/
     font-weight: normal;
+    
 }
 
 .contenedor .articulos {
